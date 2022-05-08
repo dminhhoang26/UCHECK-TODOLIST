@@ -11,3 +11,7 @@ exports.login = (req, res) => {
     res.status(500).json({success: false, error: err})
   })
 }
+
+exports.testApi = (req, res) => {
+  res.json({success: true})
+}

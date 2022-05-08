@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken")
 const mysqlConnection = require('../mysql/connection')
+const message = require('../utilities/message')
+const userQuery = require('./userQuery')
 
 let regist = (input) => {
   let params = Object.assign({}, {
@@ -7,83 +9,77 @@ let regist = (input) => {
     password: undefined,
     displayName: undefined,
   }, input)
-  return new Promise((resolve, reject) => {
-    var query = `
-    SELECT * FROM users user
-    WHERE user.username = '${params.username}'
-    `
+  return new Promise(async (resolve, reject) => {
     let connection = mysqlConnection.connect()
-    connection?.query(query, (err, user) => {
-      if (err) {
-        console.log(err)
-        resolve(null)
+    params.connection = connection
+    let result = {success: true}
+    let users = []
+    try {
+      users = await userQuery.getUserByUsername({connection, username: params.username})
+      console.log('userQuery.getUserByUsername: ', users)
+      if (users?.length > 0) {
+        result.success = false
+        result.message = message.duplicatedUser
       }
-
-    })
+    } catch (error) {
+      console.log(`getUserByUsername error: `, error)
+      result.success = false
+      result.message = message.cannotQuery
+    }
+    // create new account for user
+    if (!(users?.length > 0) && result.success) {
+      try {
+        connection?.beginTransaction()
+        await userQuery.createUser(params)
+        connection?.commit()
+      } catch (error) {
+        result.success = false
+        result.message = message.cannotCreateUser
+      }
+    }
     connection?.end()
+    resolve(result)
   })
 }
 
 let update = (input) => {
   let params = Object.assign({}, {
-    userId: undefined,
     username: undefined,
     password: undefined,
     displayName: undefined,
   }, input)
-  let info = {
-    id: params.userId,
-    username: params.username,
-    displayName: params.displayName,
-  }
-  return jwt.sign(info, "myRefreshSecretKey")
-}
-
-let checkUsernamePassword = (input) => {
-  let params = Object.assign({}, {
-    username: undefined,
-    password: undefined,
-  }, input)
-  return new Promise((resolve, reject) => {
-    let query = `
-    SELECT * FROM users user
-    WHERE user.username = '${params.username}'
-      AND user.password = '${params.password}'
-    `
+  return new Promise(async (resolve, reject) => {
     let connection = mysqlConnection.connect()
-    connection?.query(query, (err, user) => {
-      if (err) {
-        console.log(err)
-        resolve(null)
+    params.connection = connection
+    let result = {success: true}
+    let users = []
+    try {
+      users = await userQuery.getUserByUsername({connection, username: params.username})
+      console.log('update getUserByUsername: ', users)
+      if (!(users?.length > 0)) {
+        result.success = false
+        result.message = message.userIsNotExists
       }
-      resolve(user)
-    })
-    connection?.end()
-  })
-}
-
-let saveRefreshToken = (input) => {
-  let params = Object.assign({}, {
-    refreshToken: undefined,
-    userId: undefined,
-  }, input)
-  return new Promise((resolve, reject) => {
-    let insertQuery = `
-      INSERT INTO RefeshTokens (userId, refreshToken)
-      VALUES ('${params.userId}', '${params.refreshToken}')
-    `
-    connection = mysqlConnection.connect()
-    connection?.beginTransaction()
-    connection?.query(insertQuery, (err, res) => {
-      if (err) {
-        console.log(err)
-        resolve(false)
+    } catch (error) {
+      console.log('user update getUserByUsername error: ', error)
+      result.success = false
+      result.message = message.cannotQuery
+    }
+    // create new account for user
+    if (users?.length > 0 && result.success) {
+      try {
+        params.userId = users[0].id
+        connection?.beginTransaction()
+        await userQuery.updateUser(params)
+        connection?.commit()
+      } catch (error) {
+        console.log('user update updateUser error: ', error)
+        result.success = false
+        result.message = message.cannotUpdateUser
       }
-      console.log(res)
-      resolve(true)
-    })
-    connection?.commit()
+    }
     connection?.end()
+    resolve(result)
   })
 }
 
