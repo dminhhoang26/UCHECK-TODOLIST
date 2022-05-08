@@ -4,6 +4,7 @@ exports.regist = (req, res) => {
   let input = {
     password: req?.body?.password,
     username: req?.body?.username,
+    displayName: req?.body?.displayName,
   }
   userModel.regist(input).then(result => {
     res.json(result)
@@ -15,7 +16,8 @@ exports.regist = (req, res) => {
 exports.update = (req, res) => {
   let input = {
     password: req?.body?.password,
-    displayName: req?.body?.displayName
+    displayName: req?.body?.displayName,
+    username: req?.body?.username,
   }
   userModel.update(input).then(result => {
     res.json(result)
