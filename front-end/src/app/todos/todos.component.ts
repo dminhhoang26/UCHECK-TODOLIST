@@ -14,6 +14,20 @@ export class TodosComponent implements OnInit {
 
   todos: Todo[]
   showValidationErrors: boolean
+  options = {
+    ioptions: {
+      disableClick: true,
+      isReadOnly: true,
+      taskView: true,
+      useDetailPopup: false,
+      useCreationPopup: false,
+    },
+    buttons: {
+      month: false,
+      week: false,
+      day: false,
+    }
+  }
 
   constructor(private dataService: DataService, private dialog: MatDialog) { }
 
@@ -21,7 +35,7 @@ export class TodosComponent implements OnInit {
     this.todos = this.dataService.getAllTodos()
   }
 
-  onFormSubmit(form: NgForm) {   
+  onFormSubmit(form: NgForm) {
     if (form.invalid) return this.showValidationErrors = true
 
     this.dataService.addTodo(new Todo(form.value.text))
@@ -53,5 +67,5 @@ export class TodosComponent implements OnInit {
     const index = this.todos.indexOf(todo)
     this.dataService.deleteTodo(index)
   }
-  
+
 }
