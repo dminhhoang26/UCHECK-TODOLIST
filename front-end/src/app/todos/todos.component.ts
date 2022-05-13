@@ -14,6 +14,7 @@ export class TodosComponent implements OnInit {
 
   todos: Todo[]
   showValidationErrors: boolean
+  toggleCalendar: boolean = false
   options = {
     ioptions: {
       disableClick: true,
@@ -28,10 +29,14 @@ export class TodosComponent implements OnInit {
       day: false,
     }
   }
+  viewMode = {
+    listView: '1',
+    calendarView: '2',
+  }
 
   constructor(private dataService: DataService, private dialog: MatDialog) { }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.todos = this.dataService.getAllTodos()
   }
 
@@ -68,4 +73,11 @@ export class TodosComponent implements OnInit {
     this.dataService.deleteTodo(index)
   }
 
+  onToggleView = ($event) => {
+    if ($event.target.value == this.viewMode.listView) {
+      this.toggleCalendar = false
+    } else {
+      this.toggleCalendar = true
+    }
+  }
 }

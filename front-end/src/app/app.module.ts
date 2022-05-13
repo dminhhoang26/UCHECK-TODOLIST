@@ -10,8 +10,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EditTodoDialogComponent } from './edit-todo-dialog/edit-todo-dialog.component';
 
 import { MatDialogModule } from '@angular/material/dialog';
+import {MatToolbarModule} from '@angular/material/toolbar';
 import { ToolTipDirective } from './shared/tool-tip.directive';
 import { ToolTipSingletonDirective } from './shared/tool-tip-singleton.directive';
+import {MatChipsModule} from '@angular/material/chips';
 
 import {NgxMatTuiCalendarModule} from 'ngx-mat-tui-calendar';
 
@@ -31,6 +33,8 @@ import {NgxMatTuiCalendarModule} from 'ngx-mat-tui-calendar';
     BrowserAnimationsModule,
     MatDialogModule,
     NgxMatTuiCalendarModule,
+    MatToolbarModule,
+    MatChipsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

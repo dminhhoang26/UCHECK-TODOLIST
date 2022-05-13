@@ -26,14 +26,22 @@
       </div>
     </form>
 
+    <div class="container mt-3" style="text-align: center;">
+      <div class="btn-group" role="group">
+        <input (change)="onToggleView($event)" value="{{viewMode.listView}}" type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+        <label class="btn btn-outline-primary" style="width: 150px;" for="btnradio1">Todo list</label>
+
+        <input (change)="onToggleView($event)" value="{{viewMode.calendarView}}" type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+        <label class="btn btn-outline-primary" style="width: 150px;" for="btnradio2">Calendar view</label>
+      </div>
+    </div>
+
   </div>
 </div>
 
-<section class="section">
+<section *ngIf="!toggleCalendar" class="section">
   <div class="container">
-
     <div class="todos-list">
-
       <app-todo-item
         *ngFor="let todo of todos"
         [todo]="todo"
@@ -41,24 +49,12 @@
         (editClicked)="editTodo(todo)"
         (deleteClicked)="deleteTodo(todo)"
       ></app-todo-item>
-
     </div>
-
   </div>
 </section>
 
-<section class="section">
+<section *ngIf="toggleCalendar" class="section">
   <div class="container">
-    <!-- make visible once issues with dark mode are fixed -->
-    <div style="display: none;">
-      <mat-toolbar color="primary">
-        <div class="flex-stretch"></div>
-        <mat-icon class="mr-8">wb_sunny</mat-icon>
-        <!-- <mat-slide-toggle [formControl]="toggleControl" class="mr-8">
-        </mat-slide-toggle> -->
-        <mat-icon>bedtime</mat-icon>
-      </mat-toolbar>
-    </div>
     <!-- <ngx-mat-tui-calendar #matTuiCalendarNgx
         (userCreatedSchedule)="onUserCreatedSchedule($event)"
         (userUpdatedSchedule)="onUserUpdatedSchedule($event)"
