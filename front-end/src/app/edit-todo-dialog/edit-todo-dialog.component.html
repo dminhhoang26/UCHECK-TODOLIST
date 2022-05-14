@@ -9,22 +9,39 @@
           minlength="2" placeholder="Type todo text here...">
       </div>
 
-      <label for="taskDescription">Description</label>
+      <label for="taskPriority" class="mt-3">Task priority</label>
+      <div class="control">
+        <select id="taskPriority" class="form-select" [ngModel]="todo.priority" name="priority">
+          <ng-container *ngFor="let priority of priorities">
+            <option *ngIf="(priority.id == +todo.priority)"  value="{{ priority.id }}" selected>
+              {{ priority.text }}
+            </option>
+            <option *ngIf="(priority.id != +todo.priority)"  value="{{ priority.id }}">
+              {{ priority.text }}
+            </option>
+          </ng-container>
+        </select>
+      </div>
+
+      <label for="taskDescription" class="mt-3">Description</label>
       <div class="control">
         <input id="taskDescription" type="text" class="input" [ngModel]="todo.description" #todoTextField="ngModel" name="description"
           minlength="2" placeholder="Type description here...">
       </div>
 
-      <div>
-        <custom-date-picker
-          #customDatePicker
-          [dateValue]="todo.dueDate"
-          (dateChanged)="onDueDateChange($event)"
-          >
-        </custom-date-picker>
+      <label for="startDate" class="mt-3">Start date</label>
+      <div class="control">
+        <input id="startDate" type="date" class="input" [ngModel]="todo.startDate" #todoTextField="ngModel" name="startDate"
+          minlength="2" placeholder="Set start date here...">
       </div>
 
-      <div *ngIf="todoTextField.invalid">
+      <label for="dueDate" class="mt-3">Due date</label>
+      <div class="control">
+        <input id="dueDate" type="date" class="input" [ngModel]="todo.dueDate" #todoTextField="ngModel" name="dueDate"
+          minlength="2" placeholder="Set due date here...">
+      </div>
+
+      <div *ngIf="todoTextField.invalid" class="mt-3">
         <p class="help is-danger" *ngIf="todoTextField.errors.required">Please enter the text of your todo</p>
         <p class="help is-danger" *ngIf="todoTextField.errors.minlength">Todo text must be at least 2 characters</p>
       </div>

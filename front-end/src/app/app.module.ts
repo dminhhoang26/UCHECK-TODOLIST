@@ -21,6 +21,7 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown'
 
 import {NgxMatTuiCalendarModule} from 'ngx-mat-tui-calendar';
 import { CustomDatePickerComponent } from './date-picker/date-picker.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { CustomDatePickerComponent } from './date-picker/date-picker.component';
     CustomDatePickerComponent,
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,

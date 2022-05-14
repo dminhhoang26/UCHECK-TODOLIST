@@ -11,7 +11,7 @@ import { EditTodoDialogComponent } from '../edit-todo-dialog/edit-todo-dialog.co
   styleUrls: ['./todos.component.scss']
 })
 export class TodosComponent implements OnInit {
-
+  currentDate = new Date()
   todos: Todo[]
   showValidationErrors: boolean
   toggleCalendar: boolean = false
@@ -73,6 +73,7 @@ export class TodosComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
+      console.log('dialog result: ', result)
       if (result) {
         this.dataService.updateTodo(index, result)
       }

@@ -42,6 +42,7 @@ class TodoModel {
   }
 
   updateStatus = (status) => {
+
     return new Promise((resolve, reject) => {
 
     })

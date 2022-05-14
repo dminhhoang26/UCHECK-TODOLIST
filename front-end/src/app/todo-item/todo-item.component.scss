@@ -75,6 +75,13 @@
 
     transition: opacity 0.2s, visibility 0.2s, transform 0.2s;
 }
+.todo-item:hover .todo-controls-box {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0.2s;
+
+  transform: translateY(0);
+}
 
 .todo-item .chips-status {
   position: absolute;
@@ -87,13 +94,6 @@
   transition: opacity 0.2s, visibility 0.2s, transform 0.2s;
 }
 
-.todo-item:hover .todo-controls-box {
-    opacity: 1;
-    visibility: visible;
-    transition-delay: 0.4s;
-
-    transform: translateY(0);
-}
 
 .todo-controls-box .todo-control-button {
     display: flex;
