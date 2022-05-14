@@ -42,7 +42,12 @@ class TodoModel {
     }
   }
 
+<<<<<<< origin/AngularFrontend
+  updateStatus = (status) => {
+
+=======
   updateStatus = (completed) => {
+>>>>>>> local
     return new Promise((resolve, reject) => {
       let connection =  mysqlConnection.connect()
       let hasError = false
@@ -75,7 +80,7 @@ class TodoModel {
     }, input)
     return new Promise((resolve, reject) => {
       let connection = mysqlConnection.connect()
-
+      
     })
   }
 
