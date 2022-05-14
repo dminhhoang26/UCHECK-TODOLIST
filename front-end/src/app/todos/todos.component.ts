@@ -45,23 +45,23 @@ export class TodosComponent implements OnInit {
 
     this.dataService.addTodo(new Todo(
       form.value.text,
-      false,
+      undefined,
       undefined,
       undefined,
       '',
-      '2',
-      '1',
-      new Date(),
-      new Date(),
+      false,
+      '14:59',
+      '15:59',
       new Date(),
     ))
 
     this.showValidationErrors = false
     form.reset()
+    console.log('todos: ', this.todos)
   }
 
   toggleCompleted(todo: Todo) {
-    todo.completed = !todo.completed;
+    // todo.completed = !todo.completed;
   }
 
   editTodo(todo: Todo) {
@@ -91,5 +91,14 @@ export class TodosComponent implements OnInit {
     } else {
       this.toggleCalendar = true
     }
+  }
+
+  onEditClicked = (todo: Todo) => {
+    this.editTodo(todo)
+  }
+
+  currentDateChanged = ($event) => {
+    // "2022-05-18"
+    console.log('currentDateChanged: ', $event?.target?.value)
   }
 }

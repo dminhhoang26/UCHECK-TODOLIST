@@ -1,11 +1,11 @@
-<div class="todo-item" (click)="onTodoClicked()" [class.completed]="todo.completed">
+<div class="todo-item" (click)="onTodoClicked()" [class.completed]="todo.complete">
   <div class="check-box">
     <i class="material-icons">check</i>
   </div>
 
   <div class="todo-text">
     {{ todo.text }}
-    <small *ngIf="todo.status" class="badge rounded-pill bg-info text-dark chips-status">{{ todo.status }}</small>
+    <!-- <small *ngIf="todo.status" class="badge rounded-pill bg-info text-dark chips-status">{{ todo.status }}</small> -->
   </div>
 
   <div class="todo-controls-box" appToolTipSingleton (click)="$event.stopPropagation()">

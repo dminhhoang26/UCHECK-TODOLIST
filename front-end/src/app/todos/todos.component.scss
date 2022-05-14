@@ -1,32 +1,60 @@
 .heading-section {
-    background: linear-gradient(to right, rgb(2, 228, 171), rgb(74, 215, 240));
+  background: linear-gradient(to right, rgb(2, 228, 171), rgb(74, 215, 240));
 
-    padding: 100px;
-    padding-bottom: 150px;
+  padding: 100px;
+  padding-bottom: 150px;
 
-    h1.title {
-        font-weight: bold;
-        color: white;
-        text-shadow: 0px 1px 2px rgba(black, 0.12);
-    }
+  h1.title {
+    font-weight: bold;
+    color: white;
+    text-shadow: 0px 1px 2px rgba(black, 0.12);
+  }
 }
 
 .container {
-    max-width: 800px;
+  max-width: 800px;
 }
 
 .add-todo-box-container {
-    position: sticky;
-    top: 0;
-    z-index: 1;
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .add-todo-box {
-    padding: 25px;
-    background: white;
-    
-    border-radius: 4px;
-    margin-top: -68px;
+  padding: 25px;
+  background: white;
 
-    box-shadow: 0 4px 12px rgba(black, 0.08);
+  border-radius: 4px;
+  margin-top: -68px;
+
+  box-shadow: 0 4px 12px rgba(black, 0.08);
+}
+
+.cell-content {
+  padding: 0.5em 0.25em;
+  position: relative;
+}
+
+i.material-icons {
+  position: absolute;
+  display: flex;
+  font-size: 16px;
+  right: .5em;
+  top: 12px;
+
+  color: rgba(89, 89, 89, 0.8);
+
+  // hide by default
+  opacity: 0;
+
+  transition: opacity 0.2s;
+}
+
+.task-text-field:hover i.material-icons {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0.1s;
+
+  transform: translateY(0);
 }

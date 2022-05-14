@@ -33,8 +33,4 @@ export class EditTodoDialogComponent implements OnInit {
     console.log('updatedTodo: ', updatedTodo)
     this.dialogRef.close(updatedTodo)
   }
-
-  onDueDateChange = ($event) => {
-
-  }
 }
