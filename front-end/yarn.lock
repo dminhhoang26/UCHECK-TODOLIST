@@ -2527,7 +2527,7 @@ chownr@^2.0.0:
   resolved "https://registry.yarnpkg.com/chownr/-/chownr-2.0.0.tgz#15bfbe53d2eab4cf70f18a8cd68ebe5b3cb1dece"
   integrity sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==
 
-chroma-js@^2.1.0:
+chroma-js@^2.1.0, chroma-js@~2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/chroma-js/-/chroma-js-2.4.2.tgz#dffc214ed0c11fa8eefca2c36651d8e57cbfb2b0"
   integrity sha512-U9eDw6+wt7V8z5NncY2jJfZa+hUH8XEj8FQHgFJTrUFnJfXYf4Ml4adI2vXZOjqRDpFWtYVWypDfZwnJ+HIR4A==
@@ -3107,11 +3107,6 @@ dashdash@^1.12.0:
   dependencies:
     assert-plus "^1.0.0"
 
-date-fns@^2.25.0:
-  version "2.28.0"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.28.0.tgz#9570d656f5fc13143e50c975a3b6bbeb46cd08b2"
-  integrity sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==
-
 date-format@^4.0.9:
   version "4.0.9"
   resolved "https://registry.yarnpkg.com/date-format/-/date-format-4.0.9.tgz#4788015ac56dedebe83b03bc361f00c1ddcf1923"
@@ -3316,7 +3311,7 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
-distinct-colors@^3.0.0:
+distinct-colors@~3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/distinct-colors/-/distinct-colors-3.0.0.tgz#9871044c9b5be87405963d99eda84e41d3faadf9"
   integrity sha512-ID2CzFkvsdhkm4IVpUYxCcUpB6GspIvVW8dLSWFjIwJzV5kNOoayegfgDyyzcWkOWWMAFc1cyEhdtFH868AfYQ==
@@ -5880,6 +5875,13 @@ neo-async@^2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
   integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
+
+ngx-bootstrap@^7.0.0:
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/ngx-bootstrap/-/ngx-bootstrap-7.1.2.tgz#cf06a05cc22a74b882b45882a1f64f72ddece23d"
+  integrity sha512-VsZwlGVM+qYOAdvEzzH3wqCjvj3yHec4n82Tho0ve6mhN1GTRu9WPrPmvxp3cFjIu8VQbREUeKPfK0ooO8U5eg==
+  dependencies:
+    tslib "^2.0.0"
 
 ngx-mat-tui-calendar@^12.1.3:
   version "12.1.3"
@@ -8522,7 +8524,7 @@ tui-code-snippet@^1.5.0:
   resolved "https://registry.yarnpkg.com/tui-code-snippet/-/tui-code-snippet-1.5.2.tgz#f4b8f0f1ac996b0b5b621f77c9507af19a0de238"
   integrity sha512-6UqTlQaaC1KLcmC0HAoq5dtl1G4Fib+R+NC7pmaV7kiIlZ7JqKhUmnOoGRcreAyzd81UTK/vCvhrw9QJskpCFQ==
 
-tui-date-picker@^4.3.0, tui-date-picker@^4.3.1:
+tui-date-picker@^4.3.0:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/tui-date-picker/-/tui-date-picker-4.3.1.tgz#33ced91def045e7452e81345be42b8c18072205e"
   integrity sha512-LMXdiM6cXau4NVw3/1T4ltaLk2PZAn2RbRtVUPN30Zg905t9Ab+OJ8EgeEgLVW9osvLuO9raW63l7YwiT50v6Q==

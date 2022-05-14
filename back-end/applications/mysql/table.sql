@@ -12,3 +12,17 @@ CREATE TABLE RefreshTokens (
   refreshToken varchar(1000),
   PRIMARY KEY (id)
 );
+
+CREATE TABLE TodoList (
+  id int NOT NULL AUTO_INCREMENT,
+  userId int,
+  text varchar(1000),
+  description varchar(2000),
+  completed boolean,
+  priority int,
+  status int,
+  dueDate Datetime,
+  startDate Datetime,
+  createdDate Datetime,
+  PRIMARY KEY (id)
+);

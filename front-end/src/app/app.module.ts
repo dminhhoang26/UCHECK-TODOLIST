@@ -1,3 +1,5 @@
+import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker'
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -13,9 +15,12 @@ import { MatDialogModule } from '@angular/material/dialog';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import { ToolTipDirective } from './shared/tool-tip.directive';
 import { ToolTipSingletonDirective } from './shared/tool-tip-singleton.directive';
-import {MatChipsModule} from '@angular/material/chips';
+import { MatChipsModule } from '@angular/material/chips';
+import { ModalModule } from 'ngx-bootstrap/modal'
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown'
 
 import {NgxMatTuiCalendarModule} from 'ngx-mat-tui-calendar';
+import { CustomDatePickerComponent } from './date-picker/date-picker.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +29,8 @@ import {NgxMatTuiCalendarModule} from 'ngx-mat-tui-calendar';
     TodoItemComponent,
     EditTodoDialogComponent,
     ToolTipDirective,
-    ToolTipSingletonDirective
+    ToolTipSingletonDirective,
+    CustomDatePickerComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,6 +41,10 @@ import {NgxMatTuiCalendarModule} from 'ngx-mat-tui-calendar';
     NgxMatTuiCalendarModule,
     MatToolbarModule,
     MatChipsModule,
+    DatepickerModule.forRoot(),
+    BsDatepickerModule.forRoot(),
+    ModalModule.forRoot(),
+    BsDropdownModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

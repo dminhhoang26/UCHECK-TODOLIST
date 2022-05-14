@@ -5,6 +5,7 @@ let message = {
   cannotUpdateUser: 'Không thể cập nhật thông tin người dùng.',
   userIsNotExists: 'Người dùng chưa tồn tại trên hệ thống.',
   incorrectUsernameOrPassword: 'Tên đăng nhập hoặc mật khẩu không đúng.',
+  cannotCreateData: 'Không thể tạo mới dữ liệu.',
 }
 
 module.exports = message

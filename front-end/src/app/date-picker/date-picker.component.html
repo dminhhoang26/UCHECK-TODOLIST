@@ -1,0 +1,25 @@
+<div class="custom-date-picker">
+  <div class="row no-gutters align-items-center">
+    <div class="col-1 col-sm-2 pt-2 pt-sm-0 pb-3 pb-sm-0 text-center">
+      <i class="fas fa-calendar-day fa-2x text-var-primary"></i>
+    </div>
+    <div class="col-11 col-sm-10 pl-5 pl-sm-1 pt-2 pt-sm-0 pb-3 pb-sm-0 mr-auto">
+        <label
+          class="h5 mb-0 font-weight-bold text-gray-800"
+          #dp="bsDatepicker"
+          bsDatepicker
+          [(bsValue)]="dateValue"
+          [maxDate]="maxDate"
+          (bsValueChange)="onDateChanged($event)"
+          [bsConfig]="{
+            isAnimated: true,
+            showTodayButton: true,
+            selectFromOtherMonth: true,
+            showWeekNumbers: false,
+            todayButtonLabel: 'Today'
+          }"
+          >{{ dateText }}
+        </label>
+    </div>
+  </div>
+</div>

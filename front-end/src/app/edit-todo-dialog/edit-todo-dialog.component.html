@@ -3,9 +3,25 @@
 
   <form #form="ngForm" (ngSubmit)="onFormSubmit(form)">
     <div class="field">
+      <label for="taskText">Text</label>
       <div class="control">
-        <input type="text" class="input" [ngModel]="todo.text" #todoTextField="ngModel" name="text" required
+        <input id="taskText" type="text" class="input" [ngModel]="todo.text" #todoTextField="ngModel" name="text" required
           minlength="2" placeholder="Type todo text here...">
+      </div>
+
+      <label for="taskDescription">Description</label>
+      <div class="control">
+        <input id="taskDescription" type="text" class="input" [ngModel]="todo.description" #todoTextField="ngModel" name="description"
+          minlength="2" placeholder="Type description here...">
+      </div>
+
+      <div>
+        <custom-date-picker
+          #customDatePicker
+          [dateValue]="todo.dueDate"
+          (dateChanged)="onDueDateChange($event)"
+          >
+        </custom-date-picker>
       </div>
 
       <div *ngIf="todoTextField.invalid">
