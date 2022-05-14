@@ -44,10 +44,7 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
-            "allowedCommonJsDependencies": [
-               "tui-calendar",
-               "distinct-colors"
-            ],
+            "allowedCommonJsDependencies": [],
             "aot": true,
             "assets": [
               "src/favicon.ico",
@@ -55,8 +52,7 @@
             ],
             "styles": [
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.scss",
-              "./node_modules/tui-calendar/dist/tui-calendar.min.css"
+              "src/styles.scss"
             ],
             "scripts": [
               "./node_modules/popper.js/dist/popper.js",
