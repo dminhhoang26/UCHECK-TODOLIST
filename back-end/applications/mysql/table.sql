@@ -21,7 +21,7 @@ CREATE TABLE TodoList (
   complete int,
   startTime varchar(50),
   endTime varchar(50),
-  createdDate Datetime,
+  createdDate varchar(50),
   focus boolean,
   PRIMARY KEY (id)
 );

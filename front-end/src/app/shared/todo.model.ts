@@ -8,6 +8,6 @@ export class Todo {
     public focus?: boolean | undefined,
     public startTime?: string | undefined,
     public endTime?: string | undefined,
-    public createdDate?: Date | undefined,
+    public createdDate?: string | undefined,
   ) { }
 }

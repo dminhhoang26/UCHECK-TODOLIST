@@ -31,7 +31,7 @@ export class TodosComponent implements OnInit {
 
   reload = async () => {
     try {
-      this.todos = await this.dataService.search({createdDate: new Date(this.currentDate), userId: this.user.id})
+      this.todos = await this.dataService.search({createdDate: this.currentDate, userId: this.user.id})
     } catch (error) {
       console.log(error)
       this.todos = []
@@ -41,12 +41,8 @@ export class TodosComponent implements OnInit {
   async onFormSubmit(form: NgForm) {
     if (form.invalid) return this.showValidationErrors = true
     let todo = new Todo(form.value.text)
-    try {
-      todo.createdDate = new Date(this.currentDate)
-      todo.userId = this.user.id
-    } catch (error) {
-      console.log('cannot get selected date: ', form.value)
-    }
+    todo.createdDate = this.currentDate
+    todo.userId = this.user.id
     try {
       this.todos = await this.dataService.addTodo(todo)
       this.showValidationErrors = false
