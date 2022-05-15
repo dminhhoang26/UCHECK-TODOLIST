@@ -71,7 +71,11 @@ export class TodosComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async (result) => {
       console.log('dialog result: ', result)
       if (result) {
-        await this.dataService.updateTodo(index, result)
+        if (result.actionDelete) {
+          await this.dataService.deleteTodo(result.id)
+        } else {
+          await this.dataService.updateTodo(index, result)
+        }
         this.reload()
       }
     })
@@ -90,6 +94,10 @@ export class TodosComponent implements OnInit {
   currentDateChanged = ($event) => {
     // "2022-05-18"
     this.currentDate = $event?.target?.value
+    if (!this.currentDate || this.currentDate == '') {
+      this.currentDate = moment(new Date()).format('YYYY-MM-DD')
+      $event.target.value = this.currentDate
+    }
     this.reload()
   }
 }

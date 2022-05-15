@@ -11,11 +11,15 @@ import { Todo } from '../shared/todo.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditTodoDialogComponent implements OnInit {
+  showDelete = false
   constructor(
     public dialogRef: MatDialogRef<EditTodoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public todo: Todo) { }
 
   ngOnInit(): void {
+    if (this.todo?.id && this.todo?.id > 0) {
+      this.showDelete = true
+    }
   }
 
   close() {
@@ -31,5 +35,12 @@ export class EditTodoDialogComponent implements OnInit {
     }
     console.log('updatedTodo: ', updatedTodo)
     this.dialogRef.close(updatedTodo)
+  }
+
+  delete = () => {
+    this.dialogRef.close({
+      actionDelete: true,
+      taskId: this.todo.id
+    })
   }
 }

@@ -36,6 +36,12 @@
   </div>
 </div>
 
+<section *ngIf="!(todos?.length > 0)" class="section">
+  <div class="text-center">
+    <span>No data</span>
+  </div>
+</section>
+
 <section *ngIf="todos?.length > 0" class="section">
   <div class="container">
     <!-- <div class="todos-list"> -->
