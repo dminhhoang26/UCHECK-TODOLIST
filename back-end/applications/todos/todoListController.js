@@ -1,30 +1,61 @@
-
+const { TodoModel } = require('./TodoModel')
+const { Logger} = require('../utilities/Logger')
+const logger = new Logger()
 
 exports.create = (req, res) => {
   let inputData = req.body
-  res.json({success: true})
+  logger.log(req)
+  TodoModel.create(inputData).then(async (results) => {
+    if (results) {
+      try {
+        let todo = await TodoModel.load({taskId: results})
+        return res.json(todo)
+      } catch (error) {
+        return res.status(500).json({success: false, message: error})
+      }
+    } else {
+      return res.status(500).json({success: false, message: 'cannot create task'})
+    }
+  }).catch(error => {
+    return res.status(500).json({success: false, message: error})
+  })
 }
 
 exports.search = (req, res) => {
   let inputCondition = req.body
-  res.json([
-    {id: 1, name: 'task 1', description: 'this is description', status: 1, createDate: '', dueDate: ''},
-    {id: 2, name: 'task 2', description: 'this is description', status: 1, createDate: '', dueDate: ''},
-    {id: 3, name: 'task 3', description: 'this is description', status: 1, createDate: '', dueDate: ''},
-  ])
+  TodoModel.search(inputCondition).then(datas => {
+    res.json(datas)
+  }).catch(error => {
+    res.status(500).json({success: false, message: error})
+  })
 }
 
-exports.myTask = (req, res) => {
-  res.json([
-    {id: 1, name: 'task 1', description: 'this is description', status: 1, createDate: '', dueDate: ''},
-    {id: 2, name: 'task 2', description: 'this is description', status: 1, createDate: '', dueDate: ''},
-    {id: 3, name: 'task 3', description: 'this is description', status: 1, createDate: '', dueDate: ''},
-  ])
-}
-
-exports.update = (req, res) => {
-  let inputCondition = req.body
-  res.json({success: true})
+exports.update = async (req, res) => {
+  let inputData = req.body
+  let todo = null
+  try {
+    todo = await TodoModel.load({taskId: inputData.id})
+  } catch (error) {
+    return res.status(500).json({success: false, error: error})
+  }
+  if (todo) {
+    TodoModel.update(inputData).then(async (results) => {
+      if (results) {
+        try {
+          let todo = await TodoModel.load({taskId: inputData.id})
+          return res.json(todo)
+        } catch (error) {
+          return res.status(500).json({success: false, message: error})
+        }
+      } else {
+        return res.status(500).json({success: false, message: 'cannot update task'})
+      }
+    }).catch(error => {
+      return res.status(500).json({success: false, message: error})
+    })
+  } else {
+    return res.status(500).json({success: false, message: 'Task does not exists'})
+  }
 }
 
 exports.delete = (req, res) => {

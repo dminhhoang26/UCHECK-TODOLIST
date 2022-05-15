@@ -16,6 +16,8 @@ import { ToolTipSingletonDirective } from './shared/tool-tip-singleton.directive
 import { ModalModule } from 'ngx-bootstrap/modal'
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown'
 
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
+
 import { CommonModule } from '@angular/common';
 
 @NgModule({
@@ -31,6 +33,7 @@ import { CommonModule } from '@angular/common';
     CommonModule,
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     FormsModule,
     BrowserAnimationsModule,
     MatDialogModule,
@@ -38,7 +41,9 @@ import { CommonModule } from '@angular/common';
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
   ],
-  providers: [],
+  providers: [
+    
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

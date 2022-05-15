@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Todo } from '../shared/todo.model';
-import { DataService } from '../shared/data.service';
-import { NgForm } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { EditTodoDialogComponent } from '../edit-todo-dialog/edit-todo-dialog.component';
+import { Component, OnInit } from '@angular/core'
+import { Todo } from '../shared/todo.model'
+import { DataService } from '../shared/data.service'
+import { NgForm } from '@angular/forms'
+import { MatDialog } from '@angular/material/dialog'
+import { EditTodoDialogComponent } from '../edit-todo-dialog/edit-todo-dialog.component'
+import * as moment from 'moment'
+import { UserService } from '../shared/user.service'
 
 @Component({
   selector: 'app-todos',
@@ -11,53 +13,47 @@ import { EditTodoDialogComponent } from '../edit-todo-dialog/edit-todo-dialog.co
   styleUrls: ['./todos.component.scss']
 })
 export class TodosComponent implements OnInit {
-  currentDate = new Date()
+  currentDate = moment(new Date()).format('YYYY-MM-DD')
   todos: Todo[]
   showValidationErrors: boolean
-  toggleCalendar: boolean = false
-  options = {
-    ioptions: {
-      disableClick: true,
-      isReadOnly: true,
-      taskView: true,
-      useDetailPopup: false,
-      useCreationPopup: false,
-    },
-    buttons: {
-      month: false,
-      week: false,
-      day: false,
-    }
-  }
-  viewMode = {
-    listView: '1',
-    calendarView: '2',
-  }
+  user
 
-  constructor(private dataService: DataService, private dialog: MatDialog) { }
+  constructor(
+    private dataService: DataService,
+    private dialog: MatDialog,
+    private userService: UserService,
+    ) { }
 
   async ngOnInit(): Promise<void> {
-    this.todos = this.dataService.getAllTodos()
+    this.user = this.userService.getUser()
+    this.reload()
   }
 
-  onFormSubmit(form: NgForm) {
+  reload = async () => {
+    try {
+      this.todos = await this.dataService.search({createdDate: new Date(this.currentDate), userId: this.user.id})
+    } catch (error) {
+      console.log(error)
+      this.todos = []
+    }
+  }
+
+  async onFormSubmit(form: NgForm) {
     if (form.invalid) return this.showValidationErrors = true
-
-    this.dataService.addTodo(new Todo(
-      form.value.text,
-      undefined,
-      undefined,
-      undefined,
-      '',
-      false,
-      '14:59',
-      '15:59',
-      new Date(),
-    ))
-
-    this.showValidationErrors = false
-    form.reset()
-    console.log('todos: ', this.todos)
+    let todo = new Todo(form.value.text)
+    try {
+      todo.createdDate = new Date(this.currentDate)
+      todo.userId = this.user.id
+    } catch (error) {
+      console.log('cannot get selected date: ', form.value)
+    }
+    try {
+      this.todos = await this.dataService.addTodo(todo)
+      this.showValidationErrors = false
+      form.reset()
+    } catch (error) {
+      console.log('onFormSubmit error: ', error)
+    }
   }
 
   toggleCompleted(todo: Todo) {
@@ -72,24 +68,18 @@ export class TodosComponent implements OnInit {
       data: todo
     });
 
-    dialogRef.afterClosed().subscribe((result) => {
+    dialogRef.afterClosed().subscribe(async (result) => {
       console.log('dialog result: ', result)
       if (result) {
-        this.dataService.updateTodo(index, result)
+        await this.dataService.updateTodo(index, result)
+        this.reload()
       }
     })
   }
 
-  deleteTodo(todo: Todo) {
-    const index = this.todos.indexOf(todo)
-    this.dataService.deleteTodo(index)
-  }
-
-  onToggleView = ($event) => {
-    if ($event.target.value == this.viewMode.listView) {
-      this.toggleCalendar = false
-    } else {
-      this.toggleCalendar = true
+  async deleteTodo(taskId) {
+    if (await this.dataService.deleteTodo(taskId)) {
+      this.reload()
     }
   }
 
@@ -99,6 +89,7 @@ export class TodosComponent implements OnInit {
 
   currentDateChanged = ($event) => {
     // "2022-05-18"
-    console.log('currentDateChanged: ', $event?.target?.value)
+    this.currentDate = $event?.target?.value
+    this.reload()
   }
 }

@@ -1,17 +1,18 @@
 const todoListQuery = require('./todoListQuery')
 const mysqlConnection = require('../mysql/connection')
+const { Logger} = require('../utilities/Logger')
+const logger = new Logger()
 
 class TodoModel {
   text
-  completed
+  complete
   id
   userId
-  description
-  priority
-  status
-  dueDate
-  startDate
+  remarks
+  startTime
+  endTime
   createdDate
+  focus
 
   static TASK_STATUS = {
     Pending: 'Pending',
@@ -30,14 +31,13 @@ class TodoModel {
   constructor(data) {
     if (data) {
       this.text = data.text
-      this.completed = data.completed
+      this.complete = data.complete
       this.id = data.id
       this.userId = data.userId
-      this.description = data.description
-      this.priority = data.priority
-      this.status = data.status
-      this.dueDate = data.dueDate
-      this.startDate = data.startDate
+      this.remarks = data.remarks
+      this.startTime = data.startTime
+      this.endTime = data.endTime
+      this.focus = data.focus
       this.createdDate = data.createdDate
     }
   }
@@ -56,7 +56,7 @@ class TodoModel {
         connection?.commit()
       } catch (error) {
         hasError = true
-        console.log(`${TABLE} create updateStatus: `, error)
+        console.log(`updateFocusStatus: `, error)
       }
       if (hasError) {
         connection?.rollback()
@@ -67,14 +67,59 @@ class TodoModel {
     })
   }
 
+  static update = (input) => {
+    let params = Object.assign({}, {
+      text: undefined,
+      userId: undefined,
+      remarks: undefined,
+      complete: undefined,
+      startTime: undefined,
+      endTime: undefined,
+      createdDate: undefined,
+      focus: undefined,
+    }, input)
+    return new Promise(async (resolve, reject) => {
+      let hasError = false
+      let connection = mysqlConnection.connect()
+      params.connection = connection
+      let updateResult = null
+      try {
+        connection?.beginTransaction()
+        updateResult = await todoListQuery.update(params)
+        logger.log(updateResult)
+        connection?.commit()
+      } catch (error) {
+        hasError = true
+        console.log(`create error: `, error)
+      }
+      if (hasError) {
+        connection?.rollback()
+      }
+      connection?.end()
+      resolve(updateResult)
+    })
+  }
+
   static load = (input) => {
     let params = Object.assign({}, {
       taskId: undefined,
       userId: undefined,
     }, input)
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       let connection = mysqlConnection.connect()
-
+      params.connection = connection
+      let todo = null
+      try {
+        let queryResults = await todoListQuery.get(params)
+        if (queryResults?.length > 0) {
+          todo = new TodoModel(queryResults[0])
+        }
+      } catch (error) {
+        connection?.end()
+        reject(error)
+      }
+      connection?.end()
+      resolve(todo)
     })
   }
 
@@ -86,28 +131,28 @@ class TodoModel {
       complete: undefined,
       startTime: undefined,
       endTime: undefined,
-      createdTime: undefined,
+      createdDate: undefined,
       focus: undefined,
     }, input)
-    return new Promise((resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       let hasError = false
       let connection = mysqlConnection.connect()
       params.connection = connection
-      params.status = params.completed == true ? TodoModel.TASK_STATUS.Completed : TodoModel.TASK_STATUS.New
+      let insertId = null
       try {
         connection?.beginTransaction()
-        todoListQuery.create(params)
+        let createResult = await todoListQuery.create(params)
+        insertId = createResult?.insertId
         connection?.commit()
       } catch (error) {
         hasError = true
-        console.log(`${TABLE} create error: `, error)
+        console.log(`create error: `, error)
       }
       if (hasError) {
         connection?.rollback()
       }
       connection?.end()
-      hasError && resolve(false)
-      resolve(true)
+      resolve(insertId)
     })
   }
 
@@ -123,10 +168,12 @@ class TodoModel {
       try {
         results = await todoListQuery.search(params)
       } catch (error) {
-        console.log(`${TABLE} search error: `, error)
+        console.log(`search error: `, error)
       }
       connection?.end()
       resolve(results)
     })
   }
 }
+
+exports.TodoModel = TodoModel

@@ -30,7 +30,6 @@ let update = (input) => {
     complete: undefined,
     startTime: undefined,
     endTime: undefined,
-    createdTime: undefined,
     focus: undefined,
     connection: undefined,
   }, input)
@@ -73,7 +72,7 @@ let create = (input) => {
     complete: undefined,
     startTime: undefined,
     endTime: undefined,
-    createdTime: undefined,
+    createdDate: undefined,
     focus: undefined,
     connection: undefined,
   }, input)
@@ -97,8 +96,8 @@ let search = (input) => {
     connection: undefined,
   }, input)
   return new Promise((resolve, reject) => {
-    let queryParams = [params.userId, prams.createdDate]
-    var query = SqlStr.format(`SELECT * FROM ${TABLE} WHERE userId = ? AND createdTime = ?`, queryParams)
+    let queryParams = [params.userId, params.createdDate]
+    var query = SqlStr.format(`SELECT * FROM ${TABLE} WHERE userId = ? AND createdDate = ?`, queryParams)
 
     params?.connection?.query(query, (err, datas) => {
       if (err) {

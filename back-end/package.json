@@ -8,13 +8,15 @@
     "jsonwebtoken": "^8.5.1",
     "mysql": "~2.18.1",
     "cors": "^2.8.5",
-    "sqlstring": "~2.3.3"
+    "sqlstring": "~2.3.3",
+    "winston": "~3.7.2"
   },
   "devDependencies": {
     "debug": "~2.6.9"
   },
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "start2": "npm start"
   },
   "keywords": [],
   "author": "",
