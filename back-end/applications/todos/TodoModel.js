@@ -42,16 +42,15 @@ class TodoModel {
     }
   }
 
-  updateStatus = (completed) => {
+  updateFocusStatus = (focus) => {
     return new Promise((resolve, reject) => {
       let connection =  mysqlConnection.connect()
       let hasError = false
       try {
         connection?.beginTransaction()
-        todoListQuery.updateStatus({
+        todoListQuery.updateFocusStatus({
           taskId: this.id,
-          status: completed == true ? TodoModel.TASK_STATUS.Completed : TodoModel.TASK_STATUS.New,
-          completed: completed,
+          status: focus == true ? true : false,
           connection: connection,
         })
         connection?.commit()
@@ -83,11 +82,12 @@ class TodoModel {
     let params = Object.assign({}, {
       text: undefined,
       userId: undefined,
-      description: undefined,
-      completed: undefined,
-      dueDate: undefined,
-      startDate: undefined,
-      priority: undefined,
+      remarks: undefined,
+      complete: undefined,
+      startTime: undefined,
+      endTime: undefined,
+      createdTime: undefined,
+      focus: undefined,
     }, input)
     return new Promise((resolve, reject) => {
       let hasError = false
@@ -113,14 +113,12 @@ class TodoModel {
 
   static search = (inputQuery) => {
     let params = Object.assign({}, {
-      text: undefined,
-      status: undefined,
-      priority: undefined,
-      dueDate: undefined,
+      createdDate: undefined,
       userId: undefined,
     }, inputQuery)
     return new Promise(async (resolve, reject) => {
       let connection = mysqlConnection.connect()
+      params.connection = connection
       let results = []
       try {
         results = await todoListQuery.search(params)

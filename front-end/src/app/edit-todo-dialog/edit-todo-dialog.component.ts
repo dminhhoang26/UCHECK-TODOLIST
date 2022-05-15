@@ -2,7 +2,6 @@ import { Component, OnInit, Inject, ViewChild, ChangeDetectionStrategy } from '@
 import { NgForm } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Todo } from '../shared/todo.model';
-import priorities from '../shared/priority'
 
 @Component({
   selector: 'app-edit-todo-dialog',
@@ -11,7 +10,6 @@ import priorities from '../shared/priority'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditTodoDialogComponent implements OnInit {
-  priorities = priorities()
   constructor(
     public dialogRef: MatDialogRef<EditTodoDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public todo: Todo) { }

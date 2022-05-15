@@ -17,12 +17,11 @@ CREATE TABLE TodoList (
   id int NOT NULL AUTO_INCREMENT,
   userId int,
   text varchar(1000),
-  description varchar(2000),
-  completed boolean,
-  priority int,
-  status int,
-  dueDate Datetime,
-  startDate Datetime,
+  remarks varchar(2000),
+  complete int,
+  startTime varchar(50),
+  endTime varchar(50),
   createdDate Datetime,
+  focus boolean,
   PRIMARY KEY (id)
 );

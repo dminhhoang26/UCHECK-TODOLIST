@@ -9,6 +9,11 @@
           minlength="2" placeholder="Type todo text here...">
       </div>
 
+      <label for="taskComplete" class="mt-3">Complete <small>(%)</small></label>
+      <div class="control">
+        <input id="taskComplete" type="number" class="input" [ngModel]="todo.complete" #todoCompleteField="ngModel" name="complete" placeholder="Type complete percent here...">
+      </div>
+
       <!-- <label for="taskPriority" class="mt-3">Task priority</label>
       <div class="control">
         <select id="taskPriority" class="form-select" [ngModel]="todo.priority" name="priority">

@@ -36,15 +36,15 @@
   </div>
 </div>
 
-<section class="section">
+<section *ngIf="todos?.length > 0" class="section">
   <div class="container">
     <!-- <div class="todos-list"> -->
     <table class="table-bordered" style="width: 100%;">
       <colgroup>
-        <col style="width: 150px;">
-        <col style="width: 150px;">
-        <col style="width: 300px;">
-        <col style="width: 150px;">
+        <col style="width: 100px;">
+        <col style="width: 100px;">
+        <col style="width: 260px;">
+        <col style="width: 100px;">
         <col style="width: auto;">
       </colgroup>
       <thead>
