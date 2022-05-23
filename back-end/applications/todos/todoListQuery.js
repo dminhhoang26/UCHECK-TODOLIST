@@ -1,4 +1,6 @@
 const SqlStr = require('sqlstring')
+const { Logger} = require('../utilities/Logger')
+const logger = new Logger()
 
 const TABLE = 'TodoList'
 
@@ -108,9 +110,49 @@ let search = (input) => {
   })
 }
 
+let clearFocusOfTheDay = (input) => {
+  let params = Object.assign({}, {
+    userId: undefined,
+    createdDate: undefined,
+    connection: undefined,
+  }, input)
+  return new Promise((resolve, reject) => {
+    var query = SqlStr.format(`UPDATE ${TABLE} SET focus = ? `, [params.focus])
+      + SqlStr.format(` WHERE createdDate = ? AND userId = ? `, [params.createdDate, params.userId])
+      params?.connection?.query(query, (err, user) => {
+      if (err) {
+        reject(err)
+      }
+      resolve(user)
+    })
+  })
+}
+
+let getStreak = (input) => {
+  let params = Object.assign({},{
+    userId: undefined,
+    createdDates: undefined,
+    connection: undefined,
+  }, input)
+  return new Promise((resolve, reject) => {
+    let queryParams = [params.userId, ...params.createdDates]
+    logger.log(queryParams)
+    var query = SqlStr.format(`SELECT * FROM ${TABLE} WHERE userId = ? AND createdDate IN (?,?,?,?,?) `, queryParams)
+
+    params?.connection?.query(query, (err, datas) => {
+      if (err) {
+        reject(err)
+      }
+      resolve(datas)
+    })
+  })
+}
+
+
 // public exports
 exports.updateFocusStatus = updateFocusStatus
 exports.update = update
 exports.get = get
 exports.create = create
 exports.search = search
+exports.clearFocusOfTheDay = clearFocusOfTheDay

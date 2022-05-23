@@ -36,6 +36,21 @@
   </div>
 </div>
 
+<section class="section">
+  <div class="container mt-4 focus-border">
+    <div *ngIf="focusOfTheDay" class="row mt-4">
+      <h2 class="title is-5">One focus of the day: {{' ' + focusOfTheDay?.text }}</h2>
+    </div>
+    <div class="row mt-3">
+      <label for="" class="title is-5" style="display: inline-block; max-width: 150px;">Your streaks: </label>
+      <ng-container *ngFor="let streak of streaks">
+        <i *ngIf="streak == 1" class="fa-solid fa-fire-flame-curved" style="color: red; display: inline-block; max-width: 50px; font-size: 1.25rem"></i>
+        <i *ngIf="streak != 1" class="fa-solid fa-fire-flame-curved" style="display: inline-block; max-width: 50px; font-size: 1.25rem;"></i>
+      </ng-container>
+    </div>
+  </div>
+</section>
+
 <section *ngIf="!(todos?.length > 0)" class="section">
   <div class="text-center">
     <span>No data</span>
@@ -56,13 +71,13 @@
       <thead>
         <tr>
           <th scope="col" class="cell-content">
-            <div><i class="material-icons me-1">date_range</i>Start time</div>
+            <div>Start time</div>
           </th>
           <th scope="col" class="cell-content">
-            <span><i class="material-icons me-1">date_range</i>End time</span>
+            <span>End time</span>
           </th>
           <th scope="col" class="cell-content">
-            <span><i class="material-icons me-1">all_inclusive</i>Power tasks</span>
+            <span>Power tasks</span>
           </th>
           <th scope="col" class="cell-content">
             <span>Complete(%)</span>
@@ -74,14 +89,14 @@
       </thead>
       <tbody>
         <ng-container *ngFor="let todo of todos">
-          <tr>
+          <tr (click)="onEditClicked(todo)">
             <td class="cell-content">
               <span class="mt-2 ms-1 me-1 mb-2">{{todo.startTime}}</span>
             </td>
             <td class="cell-content">
               <span class="mt-2 ms-1 me-1 mb-2">{{todo.endTime}}</span>
             </td>
-            <td class="cell-content task-text-field" style="cursor: pointer;" (click)="onEditClicked(todo)">
+            <td class="cell-content task-text-field" style="cursor: pointer;">
               <span class="mt-2 ms-1 me-1 mb-2">{{todo.text}}</span>
               <i class="material-icons">edit</i>
             </td>

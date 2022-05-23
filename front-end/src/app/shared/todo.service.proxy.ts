@@ -187,6 +187,24 @@ export class TodoServiceProxy {
     }));
   }
 
+  getStreak = () => {
+    let url_ = this.baseUrl + `/api/task/getStreak`
+    url_ = url_.replace(/[?&]$/, "");
+
+    return this.http.request("get", url_).pipe(_observableMergeMap((response_: any) => {
+      return this.processRespone(response_);
+    })).pipe(_observableCatch((response_: any) => {
+      if (response_ instanceof HttpResponseBase) {
+        try {
+          return this.processRespone(<any>response_);
+        } catch (e) {
+          return <Observable<any>><any>_observableThrow(e);
+        }
+      } else
+        return <Observable<any>><any>_observableThrow(response_);
+    }));
+  }
+
   throwException(message: string, status: number, response: string, headers: { [key: string]: any; }, result?: any): Observable<any> {
     if (result !== null && result !== undefined)
       return _observableThrow(result);

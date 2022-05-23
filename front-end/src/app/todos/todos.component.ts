@@ -17,6 +17,8 @@ export class TodosComponent implements OnInit {
   todos: Todo[]
   showValidationErrors: boolean
   user
+  streaks = [1,1,0,1,1]
+  focusOfTheDay: Todo
 
   constructor(
     private dataService: DataService,
@@ -32,9 +34,11 @@ export class TodosComponent implements OnInit {
   reload = async () => {
     try {
       this.todos = await this.dataService.search({createdDate: this.currentDate, userId: this.user.id})
+      this.getFocusOfTheDay()
     } catch (error) {
       console.log(error)
       this.todos = []
+      this.getFocusOfTheDay()
     }
   }
 
@@ -43,6 +47,7 @@ export class TodosComponent implements OnInit {
     let todo = new Todo(form.value.text)
     todo.createdDate = this.currentDate
     todo.userId = this.user.id
+    todo.complete = 0
     try {
       this.todos = await this.dataService.addTodo(todo)
       this.showValidationErrors = false
@@ -50,10 +55,6 @@ export class TodosComponent implements OnInit {
     } catch (error) {
       console.log('onFormSubmit error: ', error)
     }
-  }
-
-  toggleCompleted(todo: Todo) {
-    // todo.completed = !todo.completed;
   }
 
   editTodo(todo: Todo) {
@@ -95,5 +96,13 @@ export class TodosComponent implements OnInit {
       $event.target.value = this.currentDate
     }
     this.reload()
+  }
+
+  getStreak = () => {
+    
+  }
+
+  getFocusOfTheDay = () => {
+    this.focusOfTheDay = this.todos.find(x => (x.focus == true))
   }
 }

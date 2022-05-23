@@ -2,6 +2,7 @@ const todoListQuery = require('./todoListQuery')
 const mysqlConnection = require('../mysql/connection')
 const { Logger} = require('../utilities/Logger')
 const logger = new Logger()
+const moment = require('moment')
 
 class TodoModel {
   text
@@ -27,6 +28,8 @@ class TodoModel {
     High: 3,
     Immediately: 4
   }
+
+  static DEFAULT_DATESTR_FORMAT = 'YYYY-MM-DD'
 
   constructor(data) {
     if (data) {
@@ -90,7 +93,7 @@ class TodoModel {
         connection?.commit()
       } catch (error) {
         hasError = true
-        console.log(`create error: `, error)
+        console.log(`update todo error: `, error)
       }
       if (hasError) {
         connection?.rollback()
@@ -162,6 +165,57 @@ class TodoModel {
       userId: undefined,
     }, inputQuery)
     return new Promise(async (resolve, reject) => {
+      let connection = mysqlConnection.connect()
+      params.connection = connection
+      let results = []
+      try {
+        results = await todoListQuery.search(params)
+      } catch (error) {
+        console.log(`search error: `, error)
+      }
+      connection?.end()
+      resolve(results)
+    })
+  }
+
+  static clearFocusOfTheDay = (input) => {
+    let params = Object.assign({}, {
+      userId: undefined,
+      createdDate: undefined
+    }, input)
+    return new Promise(async (resolve, reject) => {
+      let hasError = false
+      let connection = mysqlConnection.connect()
+      params.connection = connection
+      let updateResult = null
+      try {
+        connection?.beginTransaction()
+        updateResult = await todoListQuery.clearFocusOfTheDay(params)
+        logger.log(updateResult)
+        connection?.commit()
+      } catch (error) {
+        hasError = true
+        console.log(`clear focusOfTheDay error: `, error)
+      }
+      if (hasError) {
+        connection?.rollback()
+      }
+      connection?.end()
+      resolve(updateResult)
+    })
+  }
+
+  static getStreak = (input) => {
+    let params = Object.assign({}, {
+      userId: undefined,
+    }, input)
+    return new Promise(async (resolve, reject) => {
+      let currentDate = new Date()
+      let calDates = []
+      for (let i = 0; i < 6; i++) {
+        let dateStr = moment(currentDate - i).toString(this.DEFAULT_DATESTR_FORMAT)
+        calDates.push(dateStr)
+      }
       let connection = mysqlConnection.connect()
       params.connection = connection
       let results = []

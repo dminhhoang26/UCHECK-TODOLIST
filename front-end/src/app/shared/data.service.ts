@@ -75,4 +75,15 @@ export class DataService {
       })
     })
   }
+
+  getStreak = () => {
+    return new Promise((resolve, reject) => {
+      this.todoServiceProxy.getStreak().toPromise().then(res => {
+        resolve(true)
+      }).catch(error => {
+        console.log('deleteTodo has error: ', error)
+        resolve(false)
+      })
+    })
+  }
 }

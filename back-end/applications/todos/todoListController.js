@@ -39,6 +39,12 @@ exports.update = async (req, res) => {
     return res.status(500).json({success: false, error: error})
   }
   if (todo) {
+    if (todo.focus) {
+      await TodoModel.clearFocusOfTheDay({
+        userId: inputData.userId,
+        createdDate: inputData.createdDate,
+      })
+    }
     TodoModel.update(inputData).then(async (results) => {
       if (results) {
         try {
@@ -74,4 +80,13 @@ exports.get = (req, res) => {
   } else {
     res.status(500).json({success: false})
   }
+}
+
+exports.getStreak = (req, res) => {
+  let userId = req?.query?.userId || 1
+  TodoModel.getStreak({userId: userId}).then(datas => {
+    res.json(datas)
+  }).catch(error => {
+    res.status(500).json({success: false, message: error})
+  })
 }

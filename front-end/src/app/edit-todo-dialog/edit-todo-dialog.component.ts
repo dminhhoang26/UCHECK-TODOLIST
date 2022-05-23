@@ -33,7 +33,6 @@ export class EditTodoDialogComponent implements OnInit {
       ...this.todo,
       ...form.value
     }
-    console.log('updatedTodo: ', updatedTodo)
     this.dialogRef.close(updatedTodo)
   }
 
